@@ -11,8 +11,12 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  getAllCharacters(): Observable<Character[]> {
-    return this.http.get<Character[]>('http://localhost:3000/characters')
+  getAllCharacters(wordToMatch: string = ''): Observable<Character[]> {
+    let url = `http://localhost:3000/characters`;
+    if (wordToMatch !== '') {
+      url = `${url}?q=${wordToMatch}`;
+    }
+    return this.http.get<Character[]>(url)
       .pipe(
         catchError(err => throwError(err))
       );
