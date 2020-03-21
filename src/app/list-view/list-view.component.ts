@@ -11,7 +11,7 @@ import { takeWhile } from 'rxjs/operators';
 })
 export class ListViewComponent implements OnInit, OnDestroy {
   constructor(private dataService: DataService, private pageService: PageService) { }
-  characters: Character[];
+  characters: Character[] = [];
   pager: any = {};
   charactersPaged: Character[];
   private componentIsActive = true;
@@ -33,7 +33,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
   }
 
   setPage(page: number) {
-    if (page < 1 || page > this.pager.totalPages) {
+    if (page < 1) {
       return;
     }
 

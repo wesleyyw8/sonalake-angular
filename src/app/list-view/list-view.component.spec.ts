@@ -1,25 +1,60 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListViewComponent } from './list-view.component';
+import { SearchInputComponent } from '../search-input/search-input.component';
+import { PaginationComponent } from '../pagination/pagination.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { DataService } from '../core/data.service';
+import { of } from 'rxjs';
 
 describe('ListViewComponent', () => {
   let component: ListViewComponent;
   let fixture: ComponentFixture<ListViewComponent>;
+  let mockDataService;
+
 
   beforeEach(async(() => {
+    mockDataService = jasmine.createSpyObj(['getAllCharacters']);
     TestBed.configureTestingModule({
-      declarations: [ListViewComponent]
+      declarations: [ListViewComponent],
+      providers: [{
+        provide: DataService,
+        useValue: mockDataService
+      }],
+      schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
+    const characters = [{
+      'id': 1,
+      'name': 'Luke Skywalker',
+      'species': 'Human',
+      'gender': 'male',
+      'homeworld': 'Tatooine'
+    },
+    {
+      'id': 2,
+      'name': 'C-3PO',
+      'species': 'Droid',
+      'gender': 'n/a',
+      'homeworld': 'Tatooine'
+    }];
+
     fixture = TestBed.createComponent(ListViewComponent);
     component = fixture.componentInstance;
+    mockDataService.getAllCharacters.and.returnValue(of(characters));
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render a table of characters with 2 rows', () => {
+    const table = fixture.nativeElement.querySelectorAll('.table tbody tr');
+    expect(table.length).toBe(2);
+  });
+
 });

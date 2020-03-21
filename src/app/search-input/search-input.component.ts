@@ -27,7 +27,6 @@ export class SearchInputComponent implements OnInit, OnDestroy {
       debounceTime(200),
       takeWhile(() => this.componentIsActive)
     ).subscribe((value: string) => {
-
       this.setValue.emit(value);
     });
   }
