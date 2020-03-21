@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { Character } from './character';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +27,28 @@ export class DataService {
       .pipe(
         catchError(err => throwError(err))
       );
+  }
+
+  getCharacter(id: number): Observable<Character> {
+    if (id === 0) {
+      return of(this.initializeCharacter());
+    }
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.get<Character>(url)
+      .pipe(
+        tap(data => console.log('getProduct: ' + JSON.stringify(data))),
+        catchError(err => throwError(err))
+      );
+  }
+
+  private initializeCharacter(): Character {
+    return {
+      id: 0,
+      name: '',
+      species: '',
+      gender: 'male',
+      homeworld: ''
+    };
   }
 }
 

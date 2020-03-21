@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListViewComponent } from './list-view.component';
-import { SearchInputComponent } from '../search-input/search-input.component';
-import { PaginationComponent } from '../pagination/pagination.component';
+import { SearchInputComponent } from './search-input/search-input.component';
+import { PaginationComponent } from './pagination/pagination.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DataService } from '../core/data.service';
 import { of } from 'rxjs';
