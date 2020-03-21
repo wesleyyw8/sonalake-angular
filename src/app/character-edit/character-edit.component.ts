@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../core/data.service';
 import { Character } from '../core/character';
 import { NgForm } from '@angular/forms';
@@ -23,7 +23,7 @@ export class CharacterEditComponent implements OnInit {
   postErrorMessage = '';
   species = [];
 
-  constructor(private route: ActivatedRoute, private dataService: DataService) { }
+  constructor(private route: ActivatedRoute, private dataService: DataService, private router: Router) { }
 
   ngOnInit() {
     this.getSpecies();
@@ -53,7 +53,7 @@ export class CharacterEditComponent implements OnInit {
   private configPage(character: Character) {
     this.character = character;
     if (this.character.id === 0) {
-      this.pageTitle = 'Add Character';
+      this.pageTitle = 'Add a new Character';
     } else {
       this.pageTitle = `Edit Character: ${this.character.name}`;
     }
@@ -64,12 +64,26 @@ export class CharacterEditComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
     if (form.valid) {
-      console.log('form is valid');
+      if (this.character.id === 0) {
+        this.dataService.createCharacter(this.character).subscribe({
+          next: () => this.onSaveComplete(`The new ${this.character.name} was saved`),
+          error: err => this.errorMessage = err
+        });
+      } else {
+        this.dataService.updateCharacter(this.character).subscribe({
+          next: () => this.onSaveComplete(`The new ${this.character.name} was updated`),
+          error: err => this.errorMessage = err
+        });
+      }
     } else {
       this.postError = true;
       this.postErrorMessage = 'Fix the above errors';
     }
+  }
+
+  onSaveComplete(message?: string): void {
+    console.log(message);
+    this.router.navigate(['/list']);
   }
 }
