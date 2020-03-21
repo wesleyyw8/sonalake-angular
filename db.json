@@ -40,13 +40,6 @@
   ],
   "characters": [
     {
-      "id": 1,
-      "name": "Luke Skywalker",
-      "species": "Human",
-      "gender": "male",
-      "homeworld": "Tatooine"
-    },
-    {
       "id": 2,
       "name": "C-3PO",
       "species": "Droid",
@@ -59,13 +52,6 @@
       "species": "Droid",
       "gender": "n/a",
       "homeworld": "Naboo"
-    },
-    {
-      "id": 4,
-      "name": "Darth Vader",
-      "species": "Human",
-      "gender": "male",
-      "homeworld": "Tatooine"
     },
     {
       "id": 5,

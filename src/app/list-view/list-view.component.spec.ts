@@ -12,9 +12,8 @@ describe('ListViewComponent', () => {
   let fixture: ComponentFixture<ListViewComponent>;
   let mockDataService;
 
-
   beforeEach(async(() => {
-    mockDataService = jasmine.createSpyObj(['getAllCharacters']);
+    mockDataService = jasmine.createSpyObj(['getAllCharacters', 'deleteCharacterById']);
     TestBed.configureTestingModule({
       declarations: [ListViewComponent],
       providers: [{
@@ -45,6 +44,7 @@ describe('ListViewComponent', () => {
     fixture = TestBed.createComponent(ListViewComponent);
     component = fixture.componentInstance;
     mockDataService.getAllCharacters.and.returnValue(of(characters));
+    mockDataService.deleteCharacterById.and.returnValue(of(true));
     fixture.detectChanges();
   });
 
@@ -57,4 +57,10 @@ describe('ListViewComponent', () => {
     expect(table.length).toBe(2);
   });
 
+  it('should call deleteCharacterById of dataService in case user presses the delete button', () => {
+    spyOn(window, 'confirm').and.returnValue(true);
+    const deleteBtn = fixture.nativeElement.querySelectorAll('.table tbody tr .fa.fa-trash-o')[0];
+    deleteBtn.click();
+    expect(mockDataService.deleteCharacterById).toHaveBeenCalled();
+  });
 });

@@ -8,15 +8,22 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class DataService {
-
+  baseUrl = `http://localhost:3000/characters`;
   constructor(private http: HttpClient) { }
 
   getAllCharacters(wordToMatch: string = ''): Observable<Character[]> {
-    let url = `http://localhost:3000/characters`;
+    let url = this.baseUrl;
     if (wordToMatch !== '') {
-      url = `${url}?q=${wordToMatch}`;
+      url = `${this.baseUrl}?q=${wordToMatch}`;
     }
     return this.http.get<Character[]>(url)
+      .pipe(
+        catchError(err => throwError(err))
+      );
+  }
+
+  deleteCharacterById(id: string): Observable<any> {
+    return this.http.delete<Character[]>(`${this.baseUrl}/${id}`)
       .pipe(
         catchError(err => throwError(err))
       );

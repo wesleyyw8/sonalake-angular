@@ -4,7 +4,8 @@
   <div class="col-sm-6">
     <div class="form-group">
       <label for="searchInput" class="sr-only">Search</label>
-      <sl-search-input [placeholder]="'Search!'" (setValue)="searchByWord($event)"></sl-search-input>
+      <sl-search-input [placeholder]="'Search!'" (setValue)="searchByWord($event)">
+      </sl-search-input>
     </div>
   </div>
   <div class="col-sm-6 text-sm-right">
@@ -35,7 +36,7 @@
           <button type="button" class="btn btn-secondary">
             <i class="fa fa-pencil" aria-hidden="true"></i> Edit
           </button>
-          <button type="button" class="btn btn-danger">
+          <button type="button" class="btn btn-danger" (click)="deleteItem(character)">
             <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
           </button>
         </div>

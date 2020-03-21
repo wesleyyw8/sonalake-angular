@@ -15,6 +15,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
   pager: any = {};
   charactersPaged: Character[];
   private componentIsActive = true;
+  wordToSearch = '';
 
   ngOnDestroy() {
     this.componentIsActive = false;
@@ -45,6 +46,17 @@ export class ListViewComponent implements OnInit, OnDestroy {
   }
 
   searchByWord(wordToMatch) {
+    this.wordToSearch = wordToMatch;
     this.loadData(wordToMatch);
+  }
+
+  deleteItem(character) {
+    if (confirm('Are you sure to delete ' + character.name)) {
+      this.dataService.deleteCharacterById(character.id).pipe(takeWhile(() => this.componentIsActive)).subscribe(
+        resp => {
+          this.loadData(this.wordToSearch);
+        }
+      );
+    }
   }
 }
