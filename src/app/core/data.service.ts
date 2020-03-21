@@ -73,7 +73,7 @@ export class DataService {
       id: 0,
       name: '',
       species: '',
-      gender: 'male',
+      gender: '',
       homeworld: ''
     };
   }

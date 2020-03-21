@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../core/data.service';
 import { Character } from '../core/character';
@@ -15,13 +15,15 @@ export class CharacterEditComponent implements OnInit {
     id: 0,
     name: '',
     species: '',
-    gender: 'male',
+    gender: '',
     homeworld: ''
   };
   pageTitle: string;
-  postError = false;
-  postErrorMessage = '';
   species = [];
+
+  @ViewChild('nameRef') nameRef: ElementRef;
+  @ViewChild('genderRef') genderRef: ElementRef;
+  @ViewChild('selectRef') selectRef: ElementRef;
 
   constructor(private route: ActivatedRoute, private dataService: DataService, private router: Router) { }
 
@@ -37,7 +39,10 @@ export class CharacterEditComponent implements OnInit {
   private getSpecies() {
     this.dataService.getAllSpecies()
       .subscribe({
-        next: (species) => this.species = species,
+        next: (species) => {
+          this.species = ['Select an option', ...species];
+          this.character.species = this.species[0];
+        },
         error: err => this.errorMessage = err
       });
   }
@@ -59,12 +64,8 @@ export class CharacterEditComponent implements OnInit {
     }
   }
 
-  onBlur(field) {
-    console.log('in Onblur ', field.valid);
-  }
-
   onSubmit(form: NgForm) {
-    if (form.valid) {
+    if (this.checkValidation(form)) {
       if (this.character.id === 0) {
         this.dataService.createCharacter(this.character).subscribe({
           next: () => this.onSaveComplete(`The new ${this.character.name} was saved`),
@@ -76,9 +77,20 @@ export class CharacterEditComponent implements OnInit {
           error: err => this.errorMessage = err
         });
       }
+    }
+  }
+
+  private checkValidation(form: NgForm) {
+    if (form.valid && this.character.species !== this.species[0]) {
+      return true;
     } else {
-      this.postError = true;
-      this.postErrorMessage = 'Fix the above errors';
+      if (!form.controls.name.valid) {
+        this.nameRef.nativeElement.focus();
+      } else if (!form.controls.gender.valid) {
+        this.genderRef.nativeElement.focus();
+      } else {
+        this.selectRef.nativeElement.focus();
+      }
     }
   }
 
