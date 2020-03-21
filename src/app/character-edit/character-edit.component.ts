@@ -21,11 +21,12 @@ export class CharacterEditComponent implements OnInit {
   pageTitle: string;
   postError = false;
   postErrorMessage = '';
-  species = ['a', 'b', 'c'];
+  species = [];
 
   constructor(private route: ActivatedRoute, private dataService: DataService) { }
 
   ngOnInit() {
+    this.getSpecies();
     const param = this.route.snapshot.paramMap.get('id');
     if (param) {
       const id = +param || 0;
@@ -34,7 +35,11 @@ export class CharacterEditComponent implements OnInit {
   }
 
   private getSpecies() {
-
+    this.dataService.getAllSpecies()
+      .subscribe({
+        next: (species) => this.species = species,
+        error: err => this.errorMessage = err
+      });
   }
 
   private getProduct(id: number): void {
