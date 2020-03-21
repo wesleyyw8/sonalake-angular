@@ -48,9 +48,9 @@ export class CharacterEditComponent implements OnInit {
   private configPage(character: Character) {
     this.character = character;
     if (this.character.id === 0) {
-      this.pageTitle = 'Add Product';
+      this.pageTitle = 'Add Character';
     } else {
-      this.pageTitle = `Edit Product: ${this.character.name}`;
+      this.pageTitle = `Edit Character: ${this.character.name}`;
     }
   }
 
@@ -61,7 +61,7 @@ export class CharacterEditComponent implements OnInit {
   onSubmit(form: NgForm) {
     console.log(form.value);
     if (form.valid) {
-      console.log('form is valid')
+      console.log('form is valid');
     } else {
       this.postError = true;
       this.postErrorMessage = 'Fix the above errors';

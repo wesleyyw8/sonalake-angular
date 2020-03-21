@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../core/data.service';
 import { PageService } from '../core/page.service';
 import { takeWhile } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sl-list-view',
@@ -10,7 +11,7 @@ import { takeWhile } from 'rxjs/operators';
   styleUrls: ['./list-view.component.scss']
 })
 export class ListViewComponent implements OnInit, OnDestroy {
-  constructor(private dataService: DataService, private pageService: PageService) { }
+  constructor(private dataService: DataService, private pageService: PageService, private router: Router) { }
   characters: Character[] = [];
   pager: any = {};
   charactersPaged: Character[];
@@ -52,11 +53,17 @@ export class ListViewComponent implements OnInit, OnDestroy {
 
   deleteItem(character) {
     if (confirm('Are you sure to delete ' + character.name)) {
-      this.dataService.deleteCharacterById(character.id).pipe(takeWhile(() => this.componentIsActive)).subscribe(
-        resp => {
-          this.loadData(this.wordToSearch);
-        }
-      );
+      this.dataService
+        .deleteCharacterById(character.id)
+        .pipe(takeWhile(() => this.componentIsActive)).subscribe(
+          resp => {
+            this.loadData(this.wordToSearch);
+          }
+        );
     }
+  }
+
+  onEditClick(id) {
+    this.router.navigate(['/item', id]);
   }
 }

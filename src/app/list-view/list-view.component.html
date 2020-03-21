@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="col-sm-6 text-sm-right">
-    <a class="btn btn-primary mb-3">Add New</a>
+    <a class="btn btn-primary mb-3" [routerLink]="['/item',0]">Add New</a>
   </div>
 </div>
 
@@ -33,7 +33,7 @@
       <td>{{ character.homeworld }}</td>
       <td>
         <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
-          <button type="button" class="btn btn-secondary">
+          <button type="button" class="btn btn-secondary" (click)="onEditClick(character.id)">
             <i class="fa fa-pencil" aria-hidden="true"></i> Edit
           </button>
           <button type="button" class="btn btn-danger" (click)="deleteItem(character)">
