@@ -87,7 +87,6 @@ export class CharacterEditComponent implements OnInit {
     if (form.valid && this.character.species !== '' && this.character.species !== this.species[0]) {
       return true;
     } else {
-      console.log(form.value);
       if (!form.controls.name.valid) {
         this.nameRef.nativeElement.focus();
       } else if (!form.controls.gender.valid) {

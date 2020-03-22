@@ -14,12 +14,20 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  getAllCharacters(wordToMatch: string = ''): Observable<Character[]> {
-    let url = this.charactersBaseUrl;
+  getAllCharacters(page = 1, wordToMatch: string = ''): Observable<any> {
+    let url = `${this.charactersBaseUrl}?_page=${page}&_limit=10`;
+
     if (wordToMatch !== '') {
-      url = `${this.charactersBaseUrl}?q=${wordToMatch}`;
+      url += `&q=${wordToMatch}`;
     }
-    return this.http.get<Character[]>(url)
+    return this.http.get<any>(url, { observe: 'response' })
+      .pipe(
+        catchError(err => throwError(err))
+      );
+  }
+
+  getAllCharactersByUrl(url: string): Observable<any> {
+    return this.http.get<any>(url, { observe: 'response' })
       .pipe(
         catchError(err => throwError(err))
       );

@@ -70,7 +70,7 @@ describe('CharacterEditComponent', () => {
     });
   });
 
-  fit('if form is valid updateCharacter should be called', () => {
+  it('if form is valid updateCharacter should be called', () => {
     const submitBtn = fixture.nativeElement.querySelectorAll('.btn.btn-primary')[0];
     const nameInput = fixture.nativeElement.querySelectorAll('#name')[0];
     component.character.name = 'test';

@@ -1,7 +1,6 @@
 import { Character } from './../core/character';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../core/data.service';
-import { PageService } from '../core/page.service';
 import { takeWhile } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -11,14 +10,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./list-view.component.scss']
 })
 export class ListViewComponent implements OnInit, OnDestroy {
-  constructor(private dataService: DataService, private pageService: PageService, private router: Router) { }
+  constructor(private dataService: DataService, private router: Router) { }
   characters: Character[] = [];
-  pager: any = {};
-  charactersPaged: Character[];
   private componentIsActive = true;
   wordToSearch = '';
-
-  currentSortBy = 'id';
+  pagination;
 
   ngOnDestroy() {
     this.componentIsActive = false;
@@ -26,43 +22,29 @@ export class ListViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadData();
   }
-  private loadData(wordToMatch = '') {
-    this.dataService.getAllCharacters(wordToMatch).pipe(takeWhile(() => this.componentIsActive)).subscribe(
+  private loadData(page = 1, wordToMatch = '') {
+    this.dataService.getAllCharacters(page, wordToMatch).pipe(takeWhile(() => this.componentIsActive)).subscribe(
       (data) => {
-        this.characters = data;
-        this.setPage(1);
+        this.pagination = data.headers ? data.headers.get('link').split(',') : [];
+        this.characters = data.body;
       },
       err => console.log(err)
     );
   }
 
-  setPage(page: number) {
-    if (page < 1) {
-      return;
-    }
-
-    // get pager object from service
-    this.pager = this.pageService.getPager(this.characters.length, page);
-
-    // get current page of items
-    this.charactersPaged = this.characters.slice(this.pager.startIndex, this.pager.endIndex + 1);
-
-    this.charactersPaged = this.charactersPaged.sort((a, b) => {
-      const itemA = a[this.currentSortBy];
-      const itemB = b[this.currentSortBy];
-      if (itemA < itemB) {
-        return -1;
-      }
-      if (itemA > itemB) {
-        return 1;
-      }
-      return 0;
-    });
+  setPage(url) {
+    this.dataService.getAllCharactersByUrl(url).pipe(takeWhile(() => this.componentIsActive)).subscribe(
+      (data) => {
+        this.pagination = data.headers.get('link').split(',');
+        this.characters = data.body;
+      },
+      err => console.log(err)
+    );
   }
 
   searchByWord(wordToMatch) {
     this.wordToSearch = wordToMatch;
-    this.loadData(wordToMatch);
+    this.loadData(1, wordToMatch);
   }
 
   deleteItem(character) {
@@ -71,7 +53,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
         .deleteCharacterById(character.id)
         .pipe(takeWhile(() => this.componentIsActive)).subscribe(
           resp => {
-            this.loadData(this.wordToSearch);
+            this.loadData(1, this.wordToSearch);
           }
         );
     }
@@ -82,8 +64,15 @@ export class ListViewComponent implements OnInit, OnDestroy {
   }
 
   sortBy(value) {
-    this.currentSortBy = value;
-    console.log(this.pager.currentPage);
-    this.setPage(this.pager.currentPage);
+    this.characters = this.characters.sort((a, b) => {
+      const itemA = a[value];
+      const itemB = b[value];
+      if (itemA < itemB) {
+        return -1;
+      } else if (itemA > itemB) {
+        return 1;
+      }
+      return 0;
+    });
   }
 }

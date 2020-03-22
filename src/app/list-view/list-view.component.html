@@ -39,7 +39,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let character of charactersPaged">
+    <tr *ngFor="let character of characters">
       <th scope="row">{{ character.id }}</th>
       <td>{{ character.name }}</td>
       <td>{{ character.species }}</td>
@@ -70,6 +70,6 @@
 <p *ngIf="characters.length === 0">No Results Found</p>
 
 <sl-pagination
-  [pager]="pager"
+  [pagination]="pagination"
   (setPageParent)="setPage($event)"
 ></sl-pagination>

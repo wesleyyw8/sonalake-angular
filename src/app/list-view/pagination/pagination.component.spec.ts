@@ -16,11 +16,12 @@ describe('PaginationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PaginationComponent);
     component = fixture.componentInstance;
-    component.pager = {
-      currentPage: 1,
-      pages: [1, 2, 3, 4],
-      endPage: 4
-    };
+    component.pagination = [
+      `<http://localhost:3000/characters?_page=1&_limit=10>; rel="first"`,
+      `<http://localhost:3000/characters?_page=2&_limit=10>; rel="next"`,
+      `<http://localhost:3000/characters?_page=2&_limit=10>; rel="last"`];
+
+    component.ngOnChanges();
     fixture.detectChanges();
   });
 
@@ -28,17 +29,8 @@ describe('PaginationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('if current page is 1, previous button should be disabled', () => {
-    const pagination = fixture.nativeElement.querySelectorAll('.pagination')[0];
-    const firstLi = pagination.children[0];
-    expect(firstLi.className.includes('disabled')).toBeTruthy();
-  });
-
-  it('if current page is the end page, next button should be disabled', () => {
-    component.pager.currentPage = 4;
-    fixture.detectChanges();
-    const pagination = fixture.nativeElement.querySelectorAll('.pagination')[0];
-    const lastLi = pagination.children[pagination.children.length - 1];
-    expect(lastLi.className.includes('disabled')).toBeTruthy();
+  it('should render 3 pagination li', () => {
+    const li = fixture.nativeElement.querySelectorAll('.page-item');
+    expect(li.length).toBe(3);
   });
 });

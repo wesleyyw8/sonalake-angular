@@ -49,7 +49,12 @@ describe('ListViewComponent', () => {
 
     fixture = TestBed.createComponent(ListViewComponent);
     component = fixture.componentInstance;
-    mockDataService.getAllCharacters.and.returnValue(of(characters));
+    mockDataService.getAllCharacters.and.returnValue(of({
+      body: characters
+    }));
+    console.log({
+      body: characters
+    });
     mockDataService.deleteCharacterById.and.returnValue(of(true));
     fixture.detectChanges();
   });
