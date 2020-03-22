@@ -65,8 +65,9 @@ export class ListViewComponent implements OnInit, OnDestroy {
 
   sortBy(value) {
     this.characters = this.characters.sort((a, b) => {
-      const itemA = a[value];
-      const itemB = b[value];
+      const itemA = typeof (a[value]) === 'string' ? a[value].toLowerCase() : a[value];
+      const itemB = typeof (b[value]) === 'string' ? b[value].toLowerCase() : b[value];
+
       if (itemA < itemB) {
         return -1;
       } else if (itemA > itemB) {

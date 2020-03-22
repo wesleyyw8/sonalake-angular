@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { Character } from './character';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, delay } from 'rxjs/operators';
 import { Specie } from './species';
 
 @Injectable({
@@ -54,6 +54,7 @@ export class DataService {
   getAllSpecies(): Observable<Specie[]> {
     return this.http.get<Specie[]>(this.speciesBaseUrl)
       .pipe(
+        // delay(1200),
         catchError(err => throwError(err))
       );
   }

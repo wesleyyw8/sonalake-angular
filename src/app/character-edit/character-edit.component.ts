@@ -31,10 +31,13 @@ export class CharacterEditComponent implements OnInit {
 
   ngOnInit() {
     this.getSpecies();
+  }
+
+  private loadCharacter() {
     const param = this.route.snapshot.paramMap.get('id');
     if (param) {
       const id = +param || 0;
-      this.getProduct(id);
+      this.getCharacter(id);
     }
   }
 
@@ -44,12 +47,13 @@ export class CharacterEditComponent implements OnInit {
         next: (species) => {
           this.species = ['Select an option', ...species];
           this.character.species = this.species[0];
+          this.loadCharacter();
         },
         error: err => this.errorMessage = err
       });
   }
 
-  private getProduct(id: number): void {
+  private getCharacter(id: number): void {
     this.dataService.getCharacter(id)
       .subscribe({
         next: (character: Character) => this.configPage(character),
@@ -83,7 +87,6 @@ export class CharacterEditComponent implements OnInit {
   }
 
   private checkValidation(form: NgForm) {
-
     if (form.valid && this.character.species !== '' && this.character.species !== this.species[0]) {
       return true;
     } else {
