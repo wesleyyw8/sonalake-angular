@@ -41,24 +41,10 @@
   "characters": [
     {
       "id": 2,
-      "name": "C-3PO",
+      "name": "<!-- C-3P -->",
       "species": "Droid",
       "gender": "n/a",
-      "homeworld": "Tatooine"
-    },
-    {
-      "id": 3,
-      "name": "R2-D2",
-      "species": "Droid",
-      "gender": "n/a",
-      "homeworld": "Naboo"
-    },
-    {
-      "id": 5,
-      "name": "Leia Organa",
-      "species": "Human",
-      "gender": "female",
-      "homeworld": "Alderaan"
+      "homeworld": "1"
     },
     {
       "id": 6,
@@ -157,6 +143,13 @@
       "species": "Droid",
       "gender": "n/a",
       "homeworld": ""
+    },
+    {
+      "id": 20,
+      "name": "name <script> alert('ssss') </script>",
+      "species": "Dug",
+      "gender": "male",
+      "homeworld": "<script> alert('ssss') </script>"
     }
   ]
 }

@@ -4,10 +4,7 @@
   <div class="col-sm-6">
     <div class="form-group">
       <label for="searchInput" class="sr-only">Search</label>
-      <sl-search-input
-        [placeholder]="'Search!'"
-        (setValue)="searchByWord($event)"
-      >
+      <sl-search-input [placeholder]="'Search!'" (setValue)="searchByWord($event)">
       </sl-search-input>
     </div>
   </div>
@@ -35,7 +32,7 @@
       <th scope="col">
         Homeworld <i class="fa fa-sort-down" (click)="sortBy('homeworld')"></i>
       </th>
-      <th scope="col">Actions></th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -47,18 +44,10 @@
       <td>{{ character.homeworld }}</td>
       <td>
         <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            (click)="onEditClick(character.id)"
-          >
+          <button type="button" class="btn btn-secondary" (click)="onEditClick(character.id)">
             <i class="fa fa-pencil" aria-hidden="true"></i> Edit
           </button>
-          <button
-            type="button"
-            class="btn btn-danger"
-            (click)="deleteItem(character)"
-          >
+          <button type="button" class="btn btn-danger" (click)="deleteItem(character)">
             <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
           </button>
         </div>
@@ -69,7 +58,4 @@
 
 <p *ngIf="characters.length === 0">No Results Found</p>
 
-<sl-pagination
-  [pagination]="pagination"
-  (setPageParent)="setPage($event)"
-></sl-pagination>
+<sl-pagination [pagination]="pagination" (setPageParent)="setPage($event)"></sl-pagination>
