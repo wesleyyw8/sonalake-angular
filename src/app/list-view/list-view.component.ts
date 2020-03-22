@@ -18,6 +18,8 @@ export class ListViewComponent implements OnInit, OnDestroy {
   private componentIsActive = true;
   wordToSearch = '';
 
+  currentSortBy = 'id';
+
   ngOnDestroy() {
     this.componentIsActive = false;
   }
@@ -44,6 +46,18 @@ export class ListViewComponent implements OnInit, OnDestroy {
 
     // get current page of items
     this.charactersPaged = this.characters.slice(this.pager.startIndex, this.pager.endIndex + 1);
+
+    this.charactersPaged = this.charactersPaged.sort((a, b) => {
+      const itemA = a[this.currentSortBy];
+      const itemB = b[this.currentSortBy];
+      if (itemA < itemB) {
+        return -1;
+      }
+      if (itemA > itemB) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   searchByWord(wordToMatch) {
@@ -65,5 +79,11 @@ export class ListViewComponent implements OnInit, OnDestroy {
 
   onEditClick(id) {
     this.router.navigate(['/item', id]);
+  }
+
+  sortBy(value) {
+    this.currentSortBy = value;
+    console.log(this.pager.currentPage);
+    this.setPage(this.pager.currentPage);
   }
 }

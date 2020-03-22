@@ -4,24 +4,38 @@
   <div class="col-sm-6">
     <div class="form-group">
       <label for="searchInput" class="sr-only">Search</label>
-      <sl-search-input [placeholder]="'Search!'" (setValue)="searchByWord($event)">
+      <sl-search-input
+        [placeholder]="'Search!'"
+        (setValue)="searchByWord($event)"
+      >
       </sl-search-input>
     </div>
   </div>
   <div class="col-sm-6 text-sm-right">
-    <a class="btn btn-primary mb-3" [routerLink]="['/item',0]">Add New</a>
+    <a class="btn btn-primary mb-3" [routerLink]="['/item', 0]">Add New</a>
   </div>
 </div>
 
 <table class="table table-bordered table-hover" *ngIf="characters.length > 0">
   <thead class="thead-light">
     <tr>
-      <th scope="col">Id</th>
-      <th scope="col">Name</th>
-      <th scope="col">Species</th>
-      <th scope="col">Gender</th>
-      <th scope="col">Homeworld</th>
-      <th scope="col">Actions</th>
+      <th scope="col">
+        id
+        <i class="fa fa-sort-down" (click)="sortBy('id')"></i>
+      </th>
+      <th scope="col">
+        Name <i class="fa fa-sort-down" (click)="sortBy('name')"></i>
+      </th>
+      <th scope="col">
+        Species <i class="fa fa-sort-down" (click)="sortBy('species')"></i>
+      </th>
+      <th scope="col">
+        Gender <i class="fa fa-sort-down" (click)="sortBy('gender')"></i>
+      </th>
+      <th scope="col">
+        Homeworld <i class="fa fa-sort-down" (click)="sortBy('homeworld')"></i>
+      </th>
+      <th scope="col">Actions></th>
     </tr>
   </thead>
   <tbody>
@@ -33,10 +47,18 @@
       <td>{{ character.homeworld }}</td>
       <td>
         <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
-          <button type="button" class="btn btn-secondary" (click)="onEditClick(character.id)">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="onEditClick(character.id)"
+          >
             <i class="fa fa-pencil" aria-hidden="true"></i> Edit
           </button>
-          <button type="button" class="btn btn-danger" (click)="deleteItem(character)">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="deleteItem(character)"
+          >
             <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
           </button>
         </div>
@@ -47,4 +69,7 @@
 
 <p *ngIf="characters.length === 0">No Results Found</p>
 
-<sl-pagination [pager]="pager" (setPageParent)="setPage($event)"></sl-pagination>
+<sl-pagination
+  [pager]="pager"
+  (setPageParent)="setPage($event)"
+></sl-pagination>
