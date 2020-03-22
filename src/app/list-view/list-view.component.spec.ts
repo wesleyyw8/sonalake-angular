@@ -6,19 +6,25 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DataService } from '../core/data.service';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 describe('ListViewComponent', () => {
   let component: ListViewComponent;
   let fixture: ComponentFixture<ListViewComponent>;
   let mockDataService;
+  let mockRouter;
 
   beforeEach(async(() => {
     mockDataService = jasmine.createSpyObj(['getAllCharacters', 'deleteCharacterById']);
+    mockRouter = jasmine.createSpyObj(['navigate']);
     TestBed.configureTestingModule({
       declarations: [ListViewComponent],
       providers: [{
         provide: DataService,
         useValue: mockDataService
+      }, {
+        provide: Router,
+        useValue: mockRouter
       }],
       schemas: [NO_ERRORS_SCHEMA]
     })

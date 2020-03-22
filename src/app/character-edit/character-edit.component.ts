@@ -25,7 +25,9 @@ export class CharacterEditComponent implements OnInit {
   @ViewChild('genderRef') genderRef: ElementRef;
   @ViewChild('selectRef') selectRef: ElementRef;
 
-  constructor(private route: ActivatedRoute, private dataService: DataService, private router: Router) { }
+  constructor(private route: ActivatedRoute,
+    private dataService: DataService,
+    private router: Router) { }
 
   ngOnInit() {
     this.getSpecies();
@@ -81,9 +83,11 @@ export class CharacterEditComponent implements OnInit {
   }
 
   private checkValidation(form: NgForm) {
-    if (form.valid && this.character.species !== this.species[0]) {
+
+    if (form.valid && this.character.species !== '' && this.character.species !== this.species[0]) {
       return true;
     } else {
+      console.log(form.value);
       if (!form.controls.name.valid) {
         this.nameRef.nativeElement.focus();
       } else if (!form.controls.gender.valid) {
